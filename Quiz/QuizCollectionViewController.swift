@@ -67,7 +67,7 @@ class QuizCollectionViewController: UICollectionViewController {
             let modal = storyboard.instantiateViewController(withIdentifier: "modal") as! ModalViewController
             modal.modalPresentationStyle = .custom
             modal.transitioningDelegate = self
-            if self.remain == 120 {
+            if self.remain >= 120 {
                 modal.content = "You have 2 minutes to finish the quiz."
                 modal.action = "Start"
             } else {
@@ -144,6 +144,8 @@ class QuizCollectionViewController: UICollectionViewController {
         modal.action = "Retake"
         modal.buttonHandler = { _ in
             self.remain = 120
+            //self.timer.fireDate = Date.distantFuture
+            self.timer.fireDate = Date.distantPast
             for var question in self.questions {
                 question.choice = nil
             }
@@ -152,6 +154,7 @@ class QuizCollectionViewController: UICollectionViewController {
     }
     
     func didTappedSubmitButton(_ sender: UIButton) {
+        self.timer.fireDate = Date.distantFuture
         self.submitAnswer()
     }
 }
