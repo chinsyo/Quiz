@@ -12,7 +12,8 @@ import Kingfisher
 
 class QuizCollectionViewCell: UICollectionViewCell {
     
-    var question: Question! {
+    var question: Question!
+    {
         
         didSet {
             contentLabel.text = question.content
@@ -38,6 +39,14 @@ class QuizCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var bottomLeftButton: UIButton!
     @IBOutlet weak var bottomRightButton: UIButton!
     
+    override func prepareForReuse() {
+        
+        for (index, button) in [topLeftButton, topRightButton, bottomLeftButton, bottomRightButton].enumerated() {
+
+            button?.isSelected = question.choice == question.options[index]
+        }
+    }
+    
     @IBAction func didTappedOptionButton(_ sender: UIButton) {
         
         if sender.isSelected {
@@ -53,24 +62,23 @@ class QuizCollectionViewCell: UICollectionViewCell {
             return
         }
         
-//        switch sender {
-//        case topLeftButton:
-//            choice = question.options[0]
-//            
-//        case topRightButton:
-//            choice = question.options[1]
-//            
-//        case bottomLeftButton:
-//            choice = question.options[2]
-//            
-//        case bottomRightButton:
-//            choice = question.options[3]
-//            
-//        default:
-//            break
-//        }
-//        
-//        question.choice = choice
+        switch sender {
+        case topLeftButton:
+            question.choice = question.options[0]
+            
+        case topRightButton:
+            question.choice = question.options[1]
+            
+        case bottomLeftButton:
+            question.choice = question.options[2]
+            
+        case bottomRightButton:
+            question.choice = question.options[3]
+            
+        default:
+            break
+        }
+        print(question.choice)
     }
 
 }

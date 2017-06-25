@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Question {
+public class Question {
     
     var content: String
     var options: [Option]

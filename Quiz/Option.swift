@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Option {
+public class Option {
     
     var image: String
     init(image: String) {

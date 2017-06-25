@@ -13,7 +13,6 @@ private let reuseIdentifier = "QuizCollectionViewCell"
 
 class QuizCollectionViewController: UICollectionViewController {
 
-
     // MARK: - Property
     var questions = JSONFactory.questions(with: "zquestions")
         
@@ -32,6 +31,7 @@ class QuizCollectionViewController: UICollectionViewController {
         $0.setTitleColor(Constant.Color.blue, for: .normal)
         $0.setTitleColor(UIColor.lightGray, for: .disabled)
         $0.addTarget(self, action: #selector(didTappedSubmitButton), for: .touchUpInside)
+        $0.isEnabled = false
         return $0
     }(UIButton(type: .custom))
     
@@ -52,7 +52,7 @@ class QuizCollectionViewController: UICollectionViewController {
         self.collectionView?.isPagingEnabled = true
 
         questions.shuffle()
-        for var question in questions {
+        for question in questions {
             question.options.shuffle()
         }
         
@@ -115,13 +115,20 @@ class QuizCollectionViewController: UICollectionViewController {
     }
     
     func updateTimer() {
+        
         if remain < 1 {
-            timer.invalidate()
             self.submitAnswer()
+            self.submitButton.isEnabled = false
         } else {
             remain -= 1
             self.progressLabel.text = formatTimeString(seconds: remain)
+            self.submitButton.isEnabled = self.caculateEnableSubmit()
         }
+    }
+    
+    func caculateEnableSubmit() -> Bool {
+        // TODO
+        return self.questions.map { $0.choice != nil }.reduce(true, { $0 && $1 })
     }
     
     func caculateScore() -> Int {
@@ -140,21 +147,26 @@ class QuizCollectionViewController: UICollectionViewController {
         let modal = storyboard.instantiateViewController(withIdentifier: "modal") as! ModalViewController
         modal.modalPresentationStyle = .custom
         modal.transitioningDelegate = self
-        modal.content = "\(self.caculateScore()) / \(self.questions.count)"
+        modal.content = "Your score is \(self.caculateScore()) / \(self.questions.count), retake?"
         modal.action = "Retake"
         modal.buttonHandler = { _ in
+            
             self.remain = 120
-            //self.timer.fireDate = Date.distantFuture
-            self.timer.fireDate = Date.distantPast
-            for var question in self.questions {
+            self.progressLabel.text = self.formatTimeString(seconds: self.remain)
+            
+            for question in self.questions {
                 question.choice = nil
             }
+            self.collectionView?.reloadData()
+            self.collectionView?.setContentOffset(CGPoint.zero, animated: true)
+            self.timer.fireDate = Date.distantPast
         }
+        
+        self.timer.fireDate = Date.distantFuture
         self.present(modal, animated: true, completion: nil)
     }
     
     func didTappedSubmitButton(_ sender: UIButton) {
-        self.timer.fireDate = Date.distantFuture
         self.submitAnswer()
     }
 }
@@ -175,7 +187,7 @@ extension QuizCollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! QuizCollectionViewCell
-        
+    
         cell.question = self.questions[indexPath.row]
 
         
