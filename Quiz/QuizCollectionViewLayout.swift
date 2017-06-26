@@ -32,6 +32,7 @@ class QuizCollectionViewLayout: UICollectionViewLayout {
                                      y: tPadding,
                                      width: width,
                                      height: height)
+            
             self.layoutAttributes.append(attribute)
         }
     }

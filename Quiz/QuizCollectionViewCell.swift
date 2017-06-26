@@ -12,15 +12,16 @@ import Kingfisher
 
 class QuizCollectionViewCell: UICollectionViewCell {
     
-    var question: Question! {
+    weak var question: Question! {
         
         didSet {
-            contentLabel.text = question.content
-            
-            guard question.options.count >= 4 else {
+
+            guard let question = question, question.options.count >= 4 else {
                 return
             }
 
+            contentLabel.text = question.content
+            
             let resources = question.options.map { URL(string: $0.image)! }
             let processor = TintImageProcessor(tint: Constant.Color.blue.withAlphaComponent(0.3))
             

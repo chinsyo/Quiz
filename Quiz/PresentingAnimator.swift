@@ -23,7 +23,7 @@ class PresentingAnimator: NSObject, UIViewControllerAnimatedTransitioning, CAAni
         fromView?.isUserInteractionEnabled = false
         
         let dimmingView = UIView(frame: containerView.frame)
-        dimmingView.backgroundColor = UIColor.black
+        dimmingView.backgroundColor = Constant.Color.black
         dimmingView.alpha = 0
         
         let toView = transitionContext.viewController(forKey: .to)?.view
@@ -38,7 +38,7 @@ class PresentingAnimator: NSObject, UIViewControllerAnimatedTransitioning, CAAni
             toView?.snp.makeConstraints { maker in
 
                 maker.centerX.centerY.equalToSuperview()
-                maker.width.equalTo(270)
+                maker.width.equalToSuperview().inset(50)
                 maker.height.equalTo(220)
             }
             

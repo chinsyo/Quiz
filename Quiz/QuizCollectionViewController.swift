@@ -14,45 +14,46 @@ private let reuseIdentifier = "QuizCollectionViewCell"
 class QuizCollectionViewController: UICollectionViewController {
 
     // MARK: - Property
+    
+    weak var timer = Timer()
+    var remain: TimeInterval = 120
     var questions = JSONFactory.questions(with: "zquestions")
         
     lazy var progressLabel: UILabel = {
         $0.font = UIFont(name: "Avenir-Black", size: 36)
         $0.text = "02:00"
-        $0.textColor = UIColor.black
+        $0.textColor = Constant.Color.black
         $0.textAlignment = .center
         return $0
     }(UILabel())
 
     lazy var submitButton: UIButton = {
-        $0.backgroundColor = UIColor.white
+        $0.backgroundColor = Constant.Color.white
         $0.titleLabel?.font = UIFont(name: "Avenir", size: 24)
         $0.setTitle("Submit", for: .normal)
         $0.setTitleColor(Constant.Color.blue, for: .normal)
-        $0.setTitleColor(UIColor.lightGray, for: .disabled)
+        $0.setTitleColor(Constant.Color.gray, for: .disabled)
         $0.addTarget(self, action: #selector(didTappedSubmitButton), for: .touchUpInside)
         $0.isEnabled = false
         return $0
     }(UIButton(type: .custom))
-    
-    weak var timer = Timer()
-    var remain: TimeInterval = 120
 
     // MARK: - Life Cycle
     deinit {
         NotificationCenter.default.removeObserver(self)
         timer?.invalidate()
+        timer = nil
+        print("deinit vc")
     }
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        self.definesPresentationContext = true
         self.collectionView?.backgroundColor = Constant.Color.blue
         self.collectionView?.isPagingEnabled = true
+        self.definesPresentationContext = true
         
-        questions.shuffle()
-        for question in questions {
+        for question in questions.shuffled() {
             question.options.shuffle()
         }
         
@@ -67,6 +68,7 @@ class QuizCollectionViewController: UICollectionViewController {
             let modal = storyboard.instantiateViewController(withIdentifier: "modal") as! ModalViewController
             modal.modalPresentationStyle = .custom
             modal.transitioningDelegate = self
+            
             if self.remain >= 120 {
                 modal.content = "You have 2 minutes to finish the quiz."
                 modal.action = "Start"
@@ -87,15 +89,15 @@ class QuizCollectionViewController: UICollectionViewController {
         view.addSubview(progressLabel)
         view.bringSubview(toFront: progressLabel)
         progressLabel.snp.makeConstraints { maker in
-            maker.left.top.right.equalToSuperview().inset(20)
             maker.height.equalTo(40)
+            maker.left.top.right.equalToSuperview().inset(20)
         }
         
         view.addSubview(submitButton)
         view.bringSubview(toFront: submitButton)
         submitButton.snp.makeConstraints { maker in
-            maker.left.bottom.right.equalToSuperview().inset(20)
             maker.height.equalTo(40)
+            maker.left.bottom.right.equalToSuperview().inset(20)
         }
         submitButton.layer.masksToBounds = true
         submitButton.layer.cornerRadius = 20
@@ -187,8 +189,7 @@ extension QuizCollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! QuizCollectionViewCell
     
         cell.question = self.questions[indexPath.row]
-
-        cell.backgroundColor = UIColor.white
+        cell.backgroundColor = Constant.Color.white
         cell.layer.masksToBounds = true
         cell.layer.cornerRadius = 5
         
@@ -199,7 +200,6 @@ extension QuizCollectionViewController {
         
         collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-        
     }
 }
 

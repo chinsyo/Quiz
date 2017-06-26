@@ -10,16 +10,16 @@ import UIKit
 
 class ModalViewController: UIViewController {
     
-    var buttonHandler: ((UIButton) -> Void)? = nil
     var content: String = "Content"
-    
     var action: String = "Button"
+    var buttonHandler: ((UIButton) -> Void)? = nil
     
     @IBOutlet weak var titleLabel: UILabel! {
         didSet {
             titleLabel.text = self.content
         }
     }
+    
     @IBOutlet weak var actionButton: UIButton! {
         didSet {
             actionButton.setTitle(self.action, for: .normal)

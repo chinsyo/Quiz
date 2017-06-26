@@ -20,7 +20,7 @@ extension Option: CustomStringConvertible {
     
     public var description: String {
         get {
-            return "image: \(image))"
+            return "* image: \(image) *)"
         }
     }
 }

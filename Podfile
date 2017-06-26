@@ -4,7 +4,6 @@ target 'Quiz' do
   use_frameworks!
   pod 'Kingfisher'
   pod 'SnapKit'
-  pod 'FBMemoryProfiler'
   
   target 'QuizTests' do
     inherit! :search_paths

@@ -38,6 +38,7 @@ class DismissingAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         }) { finished in
             dimmingView.removeFromSuperview()
             fromView?.removeFromSuperview()
+            dimmingView = nil
             transitionContext.completeTransition(finished)
         }
     }
