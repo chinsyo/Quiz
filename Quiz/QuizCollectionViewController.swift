@@ -35,13 +35,13 @@ class QuizCollectionViewController: UICollectionViewController {
         return $0
     }(UIButton(type: .custom))
     
-    var timer = Timer()
+    weak var timer = Timer()
     var remain: TimeInterval = 120
 
     // MARK: - Life Cycle
     deinit {
         NotificationCenter.default.removeObserver(self)
-        timer.invalidate()
+        timer?.invalidate()
     }
     
     override func viewDidLoad() {
@@ -50,7 +50,7 @@ class QuizCollectionViewController: UICollectionViewController {
         self.definesPresentationContext = true
         self.collectionView?.backgroundColor = Constant.Color.blue
         self.collectionView?.isPagingEnabled = true
-
+        
         questions.shuffle()
         for question in questions {
             question.options.shuffle()
@@ -58,7 +58,7 @@ class QuizCollectionViewController: UICollectionViewController {
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationWillResignActive, object: nil, queue: nil) { notify in
             
-            self.timer.fireDate = Date.distantFuture
+            self.timer?.fireDate = Date.distantFuture
         }
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidBecomeActive, object: nil, queue: nil) { notify in
@@ -84,24 +84,22 @@ class QuizCollectionViewController: UICollectionViewController {
     
     override func viewWillLayoutSubviews() {
         
-        self.view.addSubview(self.progressLabel)
-        self.view.bringSubview(toFront: self.progressLabel)
-        self.progressLabel.snp.makeConstraints { maker in
-            maker.top.equalToSuperview().inset(40)
-            maker.left.right.equalToSuperview().inset(20)
+        view.addSubview(progressLabel)
+        view.bringSubview(toFront: progressLabel)
+        progressLabel.snp.makeConstraints { maker in
+            maker.left.top.right.equalToSuperview().inset(20)
             maker.height.equalTo(40)
         }
         
-        self.view.addSubview(self.submitButton)
-        self.view.bringSubview(toFront: self.submitButton)
-        self.submitButton.snp.makeConstraints { maker in
-            maker.left.right.bottom.equalToSuperview().inset(20)
+        view.addSubview(submitButton)
+        view.bringSubview(toFront: submitButton)
+        submitButton.snp.makeConstraints { maker in
+            maker.left.bottom.right.equalToSuperview().inset(20)
             maker.height.equalTo(40)
         }
-        self.submitButton.layer.masksToBounds = true
-        self.submitButton.layer.cornerRadius = 20
+        submitButton.layer.masksToBounds = true
+        submitButton.layer.cornerRadius = 20
     }
-    
     
     // MARK: - Action
     func formatTimeString(seconds: TimeInterval) -> String {
@@ -159,10 +157,10 @@ class QuizCollectionViewController: UICollectionViewController {
             }
             self.collectionView?.reloadData()
             self.collectionView?.setContentOffset(CGPoint.zero, animated: true)
-            self.timer.fireDate = Date.distantPast
+            self.timer?.fireDate = Date.distantPast
         }
         
-        self.timer.fireDate = Date.distantFuture
+        self.timer?.fireDate = Date.distantFuture
         self.present(modal, animated: true, completion: nil)
     }
     
@@ -190,7 +188,6 @@ extension QuizCollectionViewController {
     
         cell.question = self.questions[indexPath.row]
 
-        
         cell.backgroundColor = UIColor.white
         cell.layer.masksToBounds = true
         cell.layer.cornerRadius = 5
@@ -204,7 +201,6 @@ extension QuizCollectionViewController {
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         
     }
-
 }
 
 // MARK: - Animator

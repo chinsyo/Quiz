@@ -12,8 +12,7 @@ import Kingfisher
 
 class QuizCollectionViewCell: UICollectionViewCell {
     
-    var question: Question!
-    {
+    var question: Question! {
         
         didSet {
             contentLabel.text = question.content
@@ -24,6 +23,7 @@ class QuizCollectionViewCell: UICollectionViewCell {
 
             let resources = question.options.map { URL(string: $0.image)! }
             let processor = TintImageProcessor(tint: Constant.Color.blue.withAlphaComponent(0.3))
+            
             for (index, button) in [topLeftButton, topRightButton, bottomLeftButton, bottomRightButton].enumerated() {
                 
                 button?.kf.setImage(with: resources[index], for: .normal)
@@ -78,7 +78,6 @@ class QuizCollectionViewCell: UICollectionViewCell {
         default:
             break
         }
-        print(question.choice)
     }
 
 }

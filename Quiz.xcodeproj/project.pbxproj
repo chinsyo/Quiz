@@ -17,12 +17,10 @@
 		D629C51F1EFBF31600378A52 /* QuizTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D629C51E1EFBF31600378A52 /* QuizTests.swift */; };
 		D629C52A1EFBF5F400378A52 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = D629C5291EFBF5F400378A52 /* Question.swift */; };
 		D629C52C1EFBF65400378A52 /* Option.swift in Sources */ = {isa = PBXBuildFile; fileRef = D629C52B1EFBF65400378A52 /* Option.swift */; };
-		D629C52E1EFBF69000378A52 /* OptionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D629C52D1EFBF69000378A52 /* OptionButton.swift */; };
 		D629C5301EFBF69C00378A52 /* Shuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D629C52F1EFBF69C00378A52 /* Shuffle.swift */; };
 		D629C5321EFBF6C000378A52 /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D629C5311EFBF6C000378A52 /* ModalViewController.swift */; };
 		D629C5341EFBF6C900378A52 /* PresentingAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D629C5331EFBF6C900378A52 /* PresentingAnimator.swift */; };
 		D629C5361EFBF6CF00378A52 /* DismissingAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D629C5351EFBF6CF00378A52 /* DismissingAnimator.swift */; };
-		D629C5381EFBFAD100378A52 /* QuestionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D629C5371EFBFAD100378A52 /* QuestionLabel.swift */; };
 		D629C53A1EFC01AE00378A52 /* zquestions.json in Resources */ = {isa = PBXBuildFile; fileRef = D629C5391EFC01AE00378A52 /* zquestions.json */; };
 		D6EBC7E11EFE8EEA009BF9F0 /* JSONFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6EBC7E01EFE8EEA009BF9F0 /* JSONFactory.swift */; };
 		D6EBC7E31EFF5D5D009BF9F0 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6EBC7E21EFF5D5D009BF9F0 /* Constant.swift */; };
@@ -60,15 +58,14 @@
 		D629C5201EFBF31600378A52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D629C5291EFBF5F400378A52 /* Question.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		D629C52B1EFBF65400378A52 /* Option.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Option.swift; sourceTree = "<group>"; };
-		D629C52D1EFBF69000378A52 /* OptionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionButton.swift; sourceTree = "<group>"; };
 		D629C52F1EFBF69C00378A52 /* Shuffle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shuffle.swift; sourceTree = "<group>"; };
 		D629C5311EFBF6C000378A52 /* ModalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
 		D629C5331EFBF6C900378A52 /* PresentingAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentingAnimator.swift; sourceTree = "<group>"; };
 		D629C5351EFBF6CF00378A52 /* DismissingAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DismissingAnimator.swift; sourceTree = "<group>"; };
-		D629C5371EFBFAD100378A52 /* QuestionLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionLabel.swift; sourceTree = "<group>"; };
 		D629C5391EFC01AE00378A52 /* zquestions.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = zquestions.json; sourceTree = "<group>"; };
 		D6EBC7E01EFE8EEA009BF9F0 /* JSONFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONFactory.swift; sourceTree = "<group>"; };
 		D6EBC7E21EFF5D5D009BF9F0 /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		D6EBC7E41F00B074009BF9F0 /* Quiz-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Quiz-Bridging-Header.h"; sourceTree = "<group>"; };
 		FAFB85B5EC292DA0D33BC243 /* Pods-Quiz.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Quiz.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Quiz/Pods-Quiz.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -140,11 +137,6 @@
 				D629C5311EFBF6C000378A52 /* ModalViewController.swift */,
 				D6EBC7DB1EFE8E9F009BF9F0 /* Quiz */,
 				D6EBC7DD1EFE8EB9009BF9F0 /* Model */,
-				D629C5291EFBF5F400378A52 /* Question.swift */,
-				D629C52B1EFBF65400378A52 /* Option.swift */,
-				D6EBC7DE1EFE8ECC009BF9F0 /* Control */,
-				D629C5371EFBFAD100378A52 /* QuestionLabel.swift */,
-				D629C52D1EFBF69000378A52 /* OptionButton.swift */,
 				D6EBC7DF1EFE8ED2009BF9F0 /* Util */,
 				D6EBC7DA1EFE8E91009BF9F0 /* Animator */,
 				D6EBC7DC1EFE8EAA009BF9F0 /* Supporting Files */,
@@ -187,6 +179,7 @@
 				D629C5101EFBF31500378A52 /* Assets.xcassets */,
 				D629C5121EFBF31500378A52 /* LaunchScreen.storyboard */,
 				D629C5151EFBF31500378A52 /* Info.plist */,
+				D6EBC7E41F00B074009BF9F0 /* Quiz-Bridging-Header.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -194,15 +187,10 @@
 		D6EBC7DD1EFE8EB9009BF9F0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D629C5291EFBF5F400378A52 /* Question.swift */,
+				D629C52B1EFBF65400378A52 /* Option.swift */,
 			);
 			name = Model;
-			sourceTree = "<group>";
-		};
-		D6EBC7DE1EFE8ECC009BF9F0 /* Control */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Control;
 			sourceTree = "<group>";
 		};
 		D6EBC7DF1EFE8ED2009BF9F0 /* Util */ = {
@@ -272,6 +260,7 @@
 					D629C5051EFBF31500378A52 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = DXU95WZS6W;
+						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
 					D629C5191EFBF31600378A52 = {
@@ -420,7 +409,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D629C52E1EFBF69000378A52 /* OptionButton.swift in Sources */,
 				D60FDBE91EFC103100C5D1E2 /* QuizCollectionViewCell.swift in Sources */,
 				D6EBC7E11EFE8EEA009BF9F0 /* JSONFactory.swift in Sources */,
 				D629C5301EFBF69C00378A52 /* Shuffle.swift in Sources */,
@@ -428,7 +416,6 @@
 				D629C52A1EFBF5F400378A52 /* Question.swift in Sources */,
 				D629C5341EFBF6C900378A52 /* PresentingAnimator.swift in Sources */,
 				D6EBC7E31EFF5D5D009BF9F0 /* Constant.swift in Sources */,
-				D629C5381EFBFAD100378A52 /* QuestionLabel.swift in Sources */,
 				D60FDBEB1EFC104400C5D1E2 /* QuizCollectionViewController.swift in Sources */,
 				D629C50A1EFBF31500378A52 /* AppDelegate.swift in Sources */,
 				D60FDBED1EFC105C00C5D1E2 /* QuizCollectionViewLayout.swift in Sources */,
@@ -573,11 +560,14 @@
 			baseConfigurationReference = FAFB85B5EC292DA0D33BC243 /* Pods-Quiz.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = DXU95WZS6W;
 				INFOPLIST_FILE = Quiz/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chinsyo.Quiz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Quiz/Quiz-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -587,11 +577,13 @@
 			baseConfigurationReference = 4C9C71A38E4B225B115BB109 /* Pods-Quiz.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = DXU95WZS6W;
 				INFOPLIST_FILE = Quiz/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chinsyo.Quiz;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Quiz/Quiz-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
