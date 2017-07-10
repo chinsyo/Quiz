@@ -15,11 +15,9 @@ class QuizCollectionViewCell: UICollectionViewCell {
     weak var question: Question! {
         
         didSet {
-
             guard let question = question, question.options.count >= 4 else {
                 return
             }
-
             contentLabel.text = question.content
             
             let resources = question.options.map { URL(string: $0.image)! }
@@ -80,5 +78,4 @@ class QuizCollectionViewCell: UICollectionViewCell {
             break
         }
     }
-
 }

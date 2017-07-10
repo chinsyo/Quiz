@@ -54,19 +54,20 @@ class QuizCollectionViewLayout: UICollectionViewLayout {
         guard let collectionView = self.collectionView else {
             return super.layoutAttributesForElements(in: rect)
         }
-
+        
         for attribute in layoutAttributes {
             
-            let distance: CGFloat = collectionView.bounds.size.width
-            let itemOffset: CGFloat = attribute.center.x - collectionView.contentOffset.x
-
-            let position = itemOffset / distance - 0.5
-            
-            let scaleFactor = 1.0 - 0.15 * abs(position)
-            
-            attribute.alpha = 1.0 - abs(position)
-            attribute.transform = CGAffineTransform(scaleX: scaleFactor, y: scaleFactor)
-            
+            if attribute.frame.intersects(rect) {
+                let distance: CGFloat = collectionView.bounds.size.width
+                let itemOffset: CGFloat = attribute.center.x - collectionView.contentOffset.x
+                
+                let position = itemOffset / distance - 0.5
+                
+                let scaleFactor = 1.0 - 0.15 * abs(position)
+                
+                attribute.alpha = 1.0 - abs(position)
+                attribute.transform = CGAffineTransform(scaleX: scaleFactor, y: scaleFactor)
+            }
         }
         return layoutAttributes
     }

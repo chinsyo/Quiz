@@ -14,11 +14,12 @@ private let reuseIdentifier = "QuizCollectionViewCell"
 class QuizCollectionViewController: UICollectionViewController {
 
     // MARK: - Property
-    
     weak var timer = Timer()
+    
     var remain: TimeInterval = 120
+
     var questions = JSONFactory.questions(with: "zquestions")
-        
+    
     lazy var progressLabel: UILabel = {
         $0.font = UIFont(name: "Avenir-Black", size: 36)
         $0.text = "02:00"
@@ -40,7 +41,8 @@ class QuizCollectionViewController: UICollectionViewController {
 
     // MARK: - Life Cycle
     deinit {
-        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
         timer?.invalidate()
         timer = nil
         print("deinit vc")
@@ -57,19 +59,25 @@ class QuizCollectionViewController: UICollectionViewController {
             question.options.shuffle()
         }
         
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationWillResignActive, object: nil, queue: nil) { notify in
-            
-            self.timer?.fireDate = Date.distantFuture
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationWillResignActive, object: nil, queue: nil) { [weak self] notify in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.timer?.fireDate = .distantFuture
         }
         
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidBecomeActive, object: nil, queue: nil) { notify in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidBecomeActive, object: nil, queue: nil) { [weak self] notify in
+            
+            guard let strongSelf = self else {
+                return
+            }
             
             let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
             let modal = storyboard.instantiateViewController(withIdentifier: "modal") as! ModalViewController
             modal.modalPresentationStyle = .custom
             modal.transitioningDelegate = self
             
-            if self.remain >= 120 {
+            if strongSelf.remain >= 120 {
                 modal.content = "You have 2 minutes to finish the quiz."
                 modal.action = "Start"
             } else {
@@ -77,10 +85,13 @@ class QuizCollectionViewController: UICollectionViewController {
                 modal.action = "Continue"
             }
             
-            modal.buttonHandler = { _ in
-                self.runTimer()
+            modal.buttonHandler = { [weak self] _ in
+                guard let strongSelf = self else {
+                    return
+                }
+                strongSelf.runTimer()
             }
-            self.present(modal, animated: true, completion: nil)
+            strongSelf.present(modal, animated: true, completion: nil)
         }
     }
     
@@ -104,31 +115,25 @@ class QuizCollectionViewController: UICollectionViewController {
     }
     
     // MARK: - Action
-    func formatTimeString(seconds: TimeInterval) -> String {
-        let m = Int(seconds) / 60
-        let s = Int(seconds) % 60
-        return String(format: "%02i:%02i", m, s)
-    }
     
     func runTimer() {
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: (#selector(QuizCollectionViewController.updateTimer)), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
     }
     
     func updateTimer() {
         
         if remain < 1 {
-            self.submitAnswer()
-            self.submitButton.isEnabled = false
+            submitAnswer()
+            submitButton.isEnabled = false
         } else {
             remain -= 1
-            self.progressLabel.text = formatTimeString(seconds: remain)
-            self.submitButton.isEnabled = self.caculateEnableSubmit()
+            progressLabel.text = formatTimeString(seconds: remain)
+            updateButtonState()
         }
     }
     
-    func caculateEnableSubmit() -> Bool {
-        // TODO
-        return self.questions.map { $0.choice != nil }.reduce(true, { $0 && $1 })
+    func updateButtonState() {
+        submitButton.isEnabled = self.questions.map { $0.choice != nil }.reduce(true, { $0 && $1 })
     }
     
     func caculateScore() -> Int {
@@ -141,6 +146,12 @@ class QuizCollectionViewController: UICollectionViewController {
         return score
     }
     
+    func formatTimeString(seconds: TimeInterval) -> String {
+        let m = Int(seconds) / 60
+        let s = Int(seconds) % 60
+        return String(format: "%02i:%02i", m, s)
+    }
+    
     func submitAnswer() {
         
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
@@ -149,25 +160,27 @@ class QuizCollectionViewController: UICollectionViewController {
         modal.transitioningDelegate = self
         modal.content = "Your score is \(self.caculateScore()) / \(self.questions.count), retake?"
         modal.action = "Retake"
-        modal.buttonHandler = { _ in
+        modal.buttonHandler = { [weak self] _ in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.remain = 120
+            strongSelf.progressLabel.text = strongSelf.formatTimeString(seconds: strongSelf.remain)
             
-            self.remain = 120
-            self.progressLabel.text = self.formatTimeString(seconds: self.remain)
-            
-            for question in self.questions {
+            for question in strongSelf.questions {
                 question.choice = nil
             }
-            self.collectionView?.reloadData()
-            self.collectionView?.setContentOffset(CGPoint.zero, animated: true)
-            self.timer?.fireDate = Date.distantPast
+            strongSelf.collectionView?.reloadData()
+            strongSelf.collectionView?.setContentOffset(.zero, animated: true)
+            strongSelf.timer?.fireDate = .distantPast
         }
         
-        self.timer?.fireDate = Date.distantFuture
-        self.present(modal, animated: true, completion: nil)
+        timer?.fireDate = .distantFuture
+        present(modal, animated: true, completion: nil)
     }
     
     func didTappedSubmitButton(_ sender: UIButton) {
-        self.submitAnswer()
+        submitAnswer()
     }
 }
 
@@ -181,14 +194,14 @@ extension QuizCollectionViewController {
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return self.questions.count
+        return questions.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! QuizCollectionViewCell
     
-        cell.question = self.questions[indexPath.row]
+        cell.question = questions[indexPath.row]
         cell.backgroundColor = Constant.Color.white
         cell.layer.masksToBounds = true
         cell.layer.cornerRadius = 5

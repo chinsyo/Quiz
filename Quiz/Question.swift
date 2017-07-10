@@ -20,14 +20,13 @@ public class Question {
         self.options = options
         self.answer = options.first!
     }
-    
 }
 
 extension Question: CustomStringConvertible {
     
     public var description: String {
         get {
-            return "#\n\ncontent: \(content)\n options: \(options)\n answer: \(answer)\n choice: \(String(describing: choice))\n\n#"
+            return "# content: \(content) options: \(options) answer: \(answer) #"
         }
     }
 }

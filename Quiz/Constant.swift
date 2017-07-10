@@ -14,7 +14,7 @@ public struct Constant {
     struct Color {
         static let blue = UIColor(red: 85/255.0, green: 150/255.0, blue: 247/255.0, alpha: 1)
         static let gray = UIColor.lightGray
-        static let black = UIColor.blue
+        static let black = UIColor.black
         static let white = UIColor.white
     }
     

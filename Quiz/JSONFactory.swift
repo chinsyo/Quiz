@@ -9,6 +9,7 @@
 import Foundation
 
 public struct JSONFactory {
+    
     static func questions(with fileName: String) -> [Question] {
         do {
             let path = Bundle.main.path(forResource: "zquestions", ofType: "json")!
@@ -21,6 +22,7 @@ public struct JSONFactory {
             
             return result
         } catch {
+            assertionFailure("Couldn't load json from local file.")
             return [Question]()
         }
     }
