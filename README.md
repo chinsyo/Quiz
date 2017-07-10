@@ -1,5 +1,9 @@
 # Quiz - Lingochamp interview project.（流利说面试项目Quiz）
 
+Snapshot:
+
+![Snapshot](./Snapshot.gif)
+
 We want to build this quiz in-house.
 
 The grocery challenge is simple:
