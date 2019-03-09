@@ -60,15 +60,15 @@ class QuizCollectionViewController: UICollectionViewController {
         }
         
         NotificationCenter.default.addObserver(forName: UIApplication.willResignActiveNotification, object: nil, queue: nil) { [weak self] notify in
-            guard let strongSelf = self else {
+            guard let self = self else {
                 return
             }
-            strongSelf.timer.fireDate = .distantFuture
+            self.timer.fireDate = .distantFuture
         }
         
         NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: nil) { [weak self] notify in
             
-            guard let strongSelf = self else {
+            guard let self = self else {
                 return
             }
             
@@ -77,7 +77,7 @@ class QuizCollectionViewController: UICollectionViewController {
             modal.modalPresentationStyle = .custom
             modal.transitioningDelegate = self
             
-            if strongSelf.remain >= 120 {
+            if self.remain >= 120 {
                 modal.content = "You have 2 minutes to finish the quiz."
                 modal.action = "Start"
             } else {
@@ -86,12 +86,12 @@ class QuizCollectionViewController: UICollectionViewController {
             }
             
             modal.buttonHandler = { [weak self] _ in
-                guard let strongSelf = self else {
+                guard let self = self else {
                     return
                 }
-                strongSelf.runTimer()
+                self.runTimer()
             }
-            strongSelf.present(modal, animated: true, completion: nil)
+            self.present(modal, animated: true, completion: nil)
         }
     }
     
@@ -161,18 +161,18 @@ class QuizCollectionViewController: UICollectionViewController {
         modal.content = "Your score is \(self.caculateScore()) / \(self.questions.count), retake?"
         modal.action = "Retake"
         modal.buttonHandler = { [weak self] _ in
-            guard let strongSelf = self else {
+            guard let self = self else {
                 return
             }
-            strongSelf.remain = 120
-            strongSelf.progressLabel.text = strongSelf.formatTimeString(seconds: strongSelf.remain)
+            self.remain = 120
+            self.progressLabel.text = self.formatTimeString(seconds: self.remain)
             
-            for question in strongSelf.questions {
+            for question in self.questions {
                 question.choice = nil
             }
-            strongSelf.collectionView?.reloadData()
-            strongSelf.collectionView?.setContentOffset(.zero, animated: true)
-            strongSelf.timer.fireDate = .distantPast
+            self.collectionView?.reloadData()
+            self.collectionView?.setContentOffset(.zero, animated: true)
+            self.timer.fireDate = .distantPast
         }
         
         timer.fireDate = .distantFuture
