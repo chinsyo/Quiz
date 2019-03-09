@@ -11,15 +11,15 @@ import UIKit
 class QuizCollectionViewLayout: UICollectionViewLayout {
     
     var layoutAttributes = [UICollectionViewLayoutAttributes]()
-
+    
+    let hPadding: CGFloat = 30
+    let tPadding: CGFloat = 100
+    let bPadding: CGFloat = 80
+    
     override func prepare() {
         
         guard let collectionView = self.collectionView else { return }
-        
-        let hPadding: CGFloat = 30
-        let tPadding: CGFloat = 100
-        let bPadding: CGFloat = 80
-        
+
         let width = collectionView.bounds.size.width - hPadding * 2
         let height = collectionView.bounds.size.height - tPadding - bPadding
         

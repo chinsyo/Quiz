@@ -14,7 +14,7 @@ private let reuseIdentifier = "QuizCollectionViewCell"
 class QuizCollectionViewController: UICollectionViewController {
 
     // MARK: - Property
-    weak var timer = Timer()
+    var timer = Timer()
     
     var remain: TimeInterval = 120
 
@@ -41,10 +41,10 @@ class QuizCollectionViewController: UICollectionViewController {
 
     // MARK: - Life Cycle
     deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
-        timer?.invalidate()
-        timer = nil
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.willResignActiveNotification, object: nil)
+        timer.invalidate()
+//        timer = nil
         print("deinit vc")
     }
     
@@ -59,14 +59,14 @@ class QuizCollectionViewController: UICollectionViewController {
             question.options.shuffle()
         }
         
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationWillResignActive, object: nil, queue: nil) { [weak self] notify in
+        NotificationCenter.default.addObserver(forName: UIApplication.willResignActiveNotification, object: nil, queue: nil) { [weak self] notify in
             guard let strongSelf = self else {
                 return
             }
-            strongSelf.timer?.fireDate = .distantFuture
+            strongSelf.timer.fireDate = .distantFuture
         }
         
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidBecomeActive, object: nil, queue: nil) { [weak self] notify in
+        NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: nil) { [weak self] notify in
             
             guard let strongSelf = self else {
                 return
@@ -98,17 +98,17 @@ class QuizCollectionViewController: UICollectionViewController {
     override func viewWillLayoutSubviews() {
         
         view.addSubview(progressLabel)
-        view.bringSubview(toFront: progressLabel)
-        progressLabel.snp.makeConstraints { maker in
-            maker.height.equalTo(40)
-            maker.left.top.right.equalToSuperview().inset(20)
+        view.bringSubviewToFront(progressLabel)
+        progressLabel.snp.makeConstraints {
+            $0.height.equalTo(40)
+            $0.left.top.right.equalToSuperview().inset(20)
         }
         
         view.addSubview(submitButton)
-        view.bringSubview(toFront: submitButton)
-        submitButton.snp.makeConstraints { maker in
-            maker.height.equalTo(40)
-            maker.left.bottom.right.equalToSuperview().inset(20)
+        view.bringSubviewToFront(submitButton)
+        submitButton.snp.makeConstraints {
+            $0.height.equalTo(40)
+            $0.left.bottom.right.equalToSuperview().inset(20)
         }
         submitButton.layer.masksToBounds = true
         submitButton.layer.cornerRadius = 20
@@ -120,7 +120,7 @@ class QuizCollectionViewController: UICollectionViewController {
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
     }
     
-    func updateTimer() {
+    @objc func updateTimer() {
         
         if remain < 1 {
             submitAnswer()
@@ -172,14 +172,14 @@ class QuizCollectionViewController: UICollectionViewController {
             }
             strongSelf.collectionView?.reloadData()
             strongSelf.collectionView?.setContentOffset(.zero, animated: true)
-            strongSelf.timer?.fireDate = .distantPast
+            strongSelf.timer.fireDate = .distantPast
         }
         
-        timer?.fireDate = .distantFuture
+        timer.fireDate = .distantFuture
         present(modal, animated: true, completion: nil)
     }
     
-    func didTappedSubmitButton(_ sender: UIButton) {
+    @objc func didTappedSubmitButton(_ sender: UIButton) {
         submitAnswer()
     }
 }
@@ -209,6 +209,7 @@ extension QuizCollectionViewController {
         return cell
     }
     
+    // MARK: UICollectionViewDelegate
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
