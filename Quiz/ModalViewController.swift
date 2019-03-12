@@ -27,6 +27,7 @@ class ModalViewController: UIViewController {
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         self.view.layer.masksToBounds = true
         self.view.layer.cornerRadius = 10
     }
