@@ -35,9 +35,6 @@ class ModalViewController: UIViewController {
     @IBAction func didTappedActionButton(_ sender: UIButton) {
         
         dismiss(animated: true, completion: nil)
-        
-        if let handler = self.buttonHandler {
-            handler(sender)
-        }
+        self.buttonHandler?(sender)
     }
 }
